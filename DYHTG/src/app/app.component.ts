@@ -5,6 +5,7 @@ import { RouterOutlet } from '@angular/router';
 import { NgxGraphModule } from '@swimlane/ngx-graph';
 import { LoginComponent } from './login/login.component';
 import { GraphComponent } from './graph/graph.component';
+import { profile } from 'console';
 
 @Component({
   selector: 'app-root',
@@ -37,7 +38,6 @@ export class AppComponent implements OnInit {
     console.log('Login Success with token:', token);
     this.userToken = token;
     await this.loadUserProfile();
-    console.log(this.userModel);
   }
 
   async loadUserProfile(): Promise<void> {
@@ -58,7 +58,17 @@ export class AppComponent implements OnInit {
       // Load tracks for each playlist
       for (const playlistId of playlistIds) {
         const playlist = await getPlaylist(this.userToken, playlistId);
-        this.parseTracksIds(playlist);
+        const tracks = await this.parseTracksIds(playlist);
+        this.userModel.playlists.push({
+          "name": playlist.name,
+          "tracks": tracks,
+        });
+      }
+      for (let pl of this.userModel.playlists) {
+        console.log(pl.name);
+        for (let track of pl.tracks) {
+          console.log(track);
+        }
       }
     } catch (error) {
       console.error('Error loading playlists:', error);
@@ -67,55 +77,39 @@ export class AppComponent implements OnInit {
 
   parsePlaylistIDs(response: any): string[] {
     const parsed = response.items.map((playlist: any) => {
-      this.userModel.playlists.push({
-        name: playlist.name,
-        tracks: []
-      });
       return playlist.id;
     });
 
-    // Handle pagination if needed
-    if (response.next) {
-      fetch(response.next)
-        .then(nextResponse => this.parsePlaylistIDs(nextResponse))
-        .catch(error => console.error('Error fetching next page of playlists:', error));
-    }
 
     return parsed;
   }
 
-  parseTracksIds(playlist: any): void {
+  async parseTracksIds(playlist: any) {
+    let tracks = []
     for (const track of playlist.tracks.items) {
+      // console.log(track.track.artists);
+      const genres = track.track.artists[0].name//await this.getTrackGenres(track);
       const trackInfo = {
         name: track.track.name,
-        genres: this.getTrackGenres(track)
+        genres: genres//track.track.artists[0].name
       };
-      // Ensure the correct playlist is updated
-      const playlistEntry = this.userModel.playlists.find((p: any) => p.name === playlist.name);
-      if (playlistEntry) {
-        playlistEntry.tracks.push(trackInfo);
-      }
+      // // Ensure the correct playlist is updated
+      tracks.push(trackInfo);
     }
-
-    // Handle pagination for tracks if needed
-    if (playlist.next) {
-      fetch(playlist.next)
-        .then(nextPage => this.parseTracksIds(nextPage))
-        .catch(error => console.error('Error fetching next page of tracks:', error));
-    }
+    return tracks;    
   }
 
-  getTrackGenres(track: any): string[] {
-    const artistId = this.parseTrackArtist(track);
-    const artist = getArtistUsingArtistId(this.userToken, artistId);
-    return this.parseArtistGenres(artist);
+  async getTrackGenres(track: any){
+    const genres = await getArtistUsingArtistId(this.userToken, track.track.artists[0].id);
+    // console.log(genres)
+    return genres.genres ?? [];
   }
 
-  parseTrackArtist(track: any): string {
-    return track.artists[0].id;
-  }
+  // parseTrackArtist(track: any): string {
+  //   return track.track.artists[0].id || '';
+  // }
 
-  parseArtistGenres(artist: any): string[] {
-    return artist.genres || [];
-  }
+  // parseArtistGenres(artist: any): string[] {
+  //   return artist.genres || [];
+  // }
 }
