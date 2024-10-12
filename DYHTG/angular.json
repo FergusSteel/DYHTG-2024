@@ -55,6 +55,7 @@
             "development": {
               "optimization": false,
               "extractLicenses": false,
+							"ssr": false,
               "sourceMap": true
             }
           },
