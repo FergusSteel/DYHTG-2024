@@ -2,11 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { getUserProfile, getUserPlaylist, getPlaylist, getArtistsUsingArtistId } from '../SpotifyData';
 import { RouterOutlet } from '@angular/router';
-import { NgxGraphModule } from '@swimlane/ngx-graph';
 import { LoginComponent } from './login/login.component';
 import { GraphComponent } from './graph/graph.component';
 import { profile } from 'console';
 import { CommonModule } from '@angular/common';
+import {NgModule} from '@angular/core';
 
 @Component({
   selector: 'app-root',

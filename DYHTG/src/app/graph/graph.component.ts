@@ -27,7 +27,7 @@ export class GraphComponent  {
   			if (n.id !== undefined) {
     				for (let index = 0; index < this.node_array.length; index++) {
       					const node = this.node_array[index];
-      					if (node.id === n.id && node.image != undefined) {
+      					if (node.id === n.id && node.image != undefined && node.image != "") {
         					return node.image;
       					}
     				}
