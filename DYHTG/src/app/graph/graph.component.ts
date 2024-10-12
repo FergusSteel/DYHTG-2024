@@ -27,12 +27,12 @@ export class GraphComponent  {
   			if (n.id !== undefined) {
     				for (let index = 0; index < this.node_array.length; index++) {
       					const node = this.node_array[index];
-      					if (node.id === n.id) {
+      					if (node.id === n.id && node.image != undefined) {
         					return node.image;
       					}
     				}
   			}
-  			return "";
+  			return "https://storage.googleapis.com/pr-newsroom-wp/1/2023/05/Spotify_Primary_Logo_RGB_Black.png";
 		}
 
 		setNodeArray(playlist: any){
