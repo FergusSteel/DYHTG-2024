@@ -1,0 +1,17 @@
+<ngx-graph
+  layout="d3ForceDirected"
+  [links]="link_array"
+  [nodes]="node_array"
+>
+
+ <ng-template #nodeTemplate let-node>
+   <svg:g class="node">
+     <svg:circle
+       [attr.width]="node.dimension.width"
+       [attr.height]="node.dimension.height"
+       [attr.color]="getColour(node)"
+     />
+     <image [attr.xlink:href]="getImage(node)" [attr.width]="node.dimension.width" [attr.height]="node.dimension.height"/>
+   </svg:g>
+ </ng-template>
+</ngx-graph>

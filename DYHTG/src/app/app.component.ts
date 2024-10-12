@@ -3,12 +3,12 @@ import { RouterOutlet } from '@angular/router';
 import { NgxGraphModule } from '@swimlane/ngx-graph';
 import { getUserProfile, getUserPlaylist, getPlaylist, getArtistUsingArtistId} from "../SpotifyData";
 import { LoginComponent } from './login/login.component';
-
+import { GraphComponent } from './graph/graph.component'
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, NgxGraphModule, LoginComponent],
+  imports: [RouterOutlet, GraphComponent, LoginComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
@@ -32,7 +32,7 @@ export class AppComponent {
           getPlaylist(this.userToken, playlistId).then((response) => {
             this.parseTracksIds(response);
           });
-          
+
         }
       });
     });
@@ -52,12 +52,12 @@ export class AppComponent {
       parsed.push(playlist.id);
       let name = playlist.name;
       this.userModel.playlists.push({name: {tracks: []}});
-    } 
-    
+    }
+
     if (response.next) {
-      response = fetch(response.next, {}); 
+      response = fetch(response.next, {});
       parsed.concat(this.parsePlaylistIDs(response));
-    } 
+    }
 
     return parsed;
   }
