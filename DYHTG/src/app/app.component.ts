@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { getUserProfile, getUserPlaylist, getPlaylist, getArtistUsingArtistId } from '../SpotifyData';
+import { getUserProfile, getUserPlaylist, getPlaylist, getArtistsUsingArtistId } from '../SpotifyData';
 import { RouterOutlet } from '@angular/router';
 import { NgxGraphModule } from '@swimlane/ngx-graph';
 import { LoginComponent } from './login/login.component';
@@ -86,24 +86,43 @@ export class AppComponent implements OnInit {
 
   async parseTracksIds(playlist: any) {
     let tracks = []
-    for (const track of playlist.tracks.items) {
-      // console.log(track.track.artists);
-      const genres = track.track.artists[0].name//await this.getTrackGenres(track);
-      const trackInfo = {
-        name: track.track.name,
-        genres: genres//track.track.artists[0].name
-      };
-      // // Ensure the correct playlist is updated
-      tracks.push(trackInfo);
+    let artists = "?ids=";
+    if (!(playlist.tracks.items.length > 50)) {
+      // get list of artists
+      for (const track of playlist.tracks.items) {
+        // console.log(track.track.artists);
+        artists = artists.concat(track.track.artists[0].id+",");
+      }
+      if (artists == "?ids=") {
+        return [];
+      }
+      artists = artists.slice(0, -1);
+
+      const data = await getArtistsUsingArtistId(this.userToken, artists);
+      
+      let artistMap = new Map<string, string[]>();
+      for (const artist of data.artists) {
+        artistMap.set(artist.id, artist.genres);
+      }
+
+      for (const track of playlist.tracks.items) {
+        const trackInfo = {
+          name: track.track.name,
+          genres: artistMap.get(track.track.artists[0].id) || [], // Use the genres from the artist map
+        };
+        tracks.push(trackInfo);
+      }
+      return tracks;  
+    } else {
+      return [];
     }
-    return tracks;    
   }
 
-  async getTrackGenres(track: any){
-    const genres = await getArtistUsingArtistId(this.userToken, track.track.artists[0].id);
-    // console.log(genres)
-    return genres.genres ?? [];
-  }
+  // async getTrackGenres(track: any){
+  //   const genres = await getArtistUsingArtistId(this.userToken, track.track.artists[0].id);
+  //   // console.log(genres)
+  //   return genres.genres ?? [];
+  // }
 
   // parseTrackArtist(track: any): string {
   //   return track.track.artists[0].id || '';

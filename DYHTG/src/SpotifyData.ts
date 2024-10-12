@@ -1,7 +1,7 @@
 export {
     getUserProfile,
     getPlaylist,
-    getArtistUsingArtistId,
+    getArtistsUsingArtistId,
     getAccessToken,
     getUserPlaylist,
 } // makin it a module
@@ -78,7 +78,7 @@ async function getTrackFromPlaylist(token: string, playlistId: string){
     }).then((result) => {return result.json()});
 }
 
-async function getArtistUsingArtistId(token:string, artistid: string){
+async function getArtistsUsingArtistId(token:string, artistid: string){
     return fetch("https://api.spotify.com/v1/artists/" + artistid, {
         method: "GET",
         headers:{
