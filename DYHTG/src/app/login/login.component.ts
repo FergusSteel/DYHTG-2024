@@ -11,8 +11,8 @@ import { Router } from '@angular/router'; // Router to handle redirection
 })
 export class LoginComponent {
 
-  private clientId: string = 'f4a716e59dba4befafd46923236dcc02'; // NEED TO CHANGE BACK TO MIGUELS
-  private redirectUri: string = 'http://localhost:4200/'; // Your Angular app's callback route
+  private clientId: string = '0fe50e3d0be1465d966d67e6529ab620'; // NEED TO CHANGE BACK TO MIGUELS
+  private redirectUri: string = 'http://localhost:4200/callback'; // Your Angular app's callback route
   private scope: string = 'user-read-private user-read-email playlist-read-private playlist-read-collaborative';
 
   constructor(
@@ -33,7 +33,7 @@ export class LoginComponent {
 
     // Create parameters for the Spotify authorization request
     const params = new HttpParams()
-      .set('response_type', 'token')
+      .set('response_type', 'code')
       .set('client_id', this.clientId)
       .set('scope', this.scope)
       .set('redirect_uri', this.redirectUri)
