@@ -8,6 +8,7 @@ if(!statusCode){
 else{
     const token = await getAccessToken(clientId, statusCode);
     const profile = await getUserProfile(token);
+    const playlist = await getUserPlaylist(token,);
     const userId = profile.display_name;
 }
 
@@ -42,9 +43,9 @@ async function getUserPlaylist(token:string, userId:string){
     const result = await fetch("https://api.spotify.com/v1/users/"+ userId + "/playlists", {
         method: "GET", 
         headers:{ 
-            
+            Authorization: `Bearer ${token}`
         }
     });
+
+    return await result.json();
 }
-    
-     
