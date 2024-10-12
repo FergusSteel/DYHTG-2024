@@ -40,8 +40,8 @@ export class GraphComponent  {
 			let p: any;
 			for (p in playlist){
 				let image: string = "";
-				if (p.images !== undefined && p.images.length > 0) {
-					image = p.images[0];
+				if (p.img !== undefined) {
+					image = p.img;
 				}
 				node_array.push({id: p, label: p, image: undefined});
 			}
