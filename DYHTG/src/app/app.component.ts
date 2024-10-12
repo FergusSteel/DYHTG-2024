@@ -1,12 +1,14 @@
 import { Component, HostListener, Input } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { NgxGraphModule } from '@swimlane/ngx-graph';
-import {getUserProfile, getUserPlaylist, getPlaylist, getArtistUsingArtistId} from "../SpotifyData";
+import { getUserProfile, getUserPlaylist, getPlaylist, getArtistUsingArtistId} from "../SpotifyData";
+import { LoginComponent } from './login/login.component';
+
 
 @Component({
   selector: 'app-root',
   standalone: true,
-		imports: [RouterOutlet, NgxGraphModule],
+  imports: [RouterOutlet, NgxGraphModule, LoginComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
