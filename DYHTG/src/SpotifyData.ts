@@ -49,3 +49,14 @@ async function getUserPlaylist(token:string, userId:string){
 
     return await result.json();
 }
+
+async function getPlaylist(token: string, playlistId:string){
+    const result = await fetch("https://api.spotify.com/v1/playlists/"+playlistId, {
+        method: "GET",
+        headers:{
+            Authorization: `Bearer ${token}`
+        }
+    })
+
+    return await result.json();
+}
