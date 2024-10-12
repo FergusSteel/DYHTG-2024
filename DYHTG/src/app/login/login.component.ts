@@ -7,17 +7,17 @@ import { Router } from '@angular/router'; // Router to handle redirection
   selector: 'app-login',
   standalone: true, // Standalone component
   template: `<button (click)="login()">Login with Spotify</button>`,
-  imports: [], // If you're using standalone, add HttpClientModule in main.ts
+  imports: [],
 })
 export class LoginComponent {
 
-  private clientId: string = '0fe50e3d0be1465d966d67e6529ab620'; // NEED TO CHANGE BACK TO MIGUELS
-  private redirectUri: string = 'http://localhost:4200/callback'; // Your Angular app's callback route
+  private clientId: string = '0fe50e3d0be1465d966d67e6529ab620';
+  private redirectUri: string = 'http://localhost:4200/callback';
   private scope: string = 'user-read-private user-read-email playlist-read-private playlist-read-collaborative';
 
   constructor(
-    private http: HttpClient, // HttpClient to handle HTTP requests
-    private router: Router // Router for navigation
+    private http: HttpClient,
+    private router: Router
   ) {}
 
  generateRandomString(length: number): string {
