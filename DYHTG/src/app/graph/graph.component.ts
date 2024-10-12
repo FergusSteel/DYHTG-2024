@@ -9,7 +9,7 @@ import { Node, Edge, ClusterNode } from '@swimlane/ngx-graph';
   templateUrl: './graph.component.html',
   styleUrl: './graph.component.css'
 })
-export class GraphComponent implements OnInit {
+export class GraphComponent  {
 	public link_array: any;
 	public node_array: any;
 
