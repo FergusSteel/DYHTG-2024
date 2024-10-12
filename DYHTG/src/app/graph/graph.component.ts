@@ -20,7 +20,6 @@ export class GraphComponent {
 		}
 
 		getColour(n: any) : string{
-			console.log(n.id);
 			return "#000FFF";
 		}
 
