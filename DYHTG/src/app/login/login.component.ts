@@ -6,8 +6,9 @@ import { Router } from '@angular/router'; // Router to handle redirection
 @Component({
   selector: 'app-login',
   standalone: true, // Standalone component
-  template: `<button (click)="login()">Login with Spotify</button>`,
+  template: `<button class="spotify-button" (click)="login()">Login with Spotify</button>`,
   imports: [],
+  styleUrls: ['login.component.css'],
 })
 export class LoginComponent {
 
