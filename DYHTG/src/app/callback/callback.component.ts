@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Buffer } from 'buffer'; // Import Buffer for base64 encoding
@@ -17,7 +17,7 @@ export class CallbackComponent implements OnInit {
     private router: Router,
     private http: HttpClient
   ) {}
-
+  @Output() onLoginSuccess= new EventEmitter<{token:string}>(); 
   ngOnInit(): void {
     // Extract authorization code and state from query parameters
     this.route.queryParams.subscribe(params => {
@@ -55,6 +55,7 @@ export class CallbackComponent implements OnInit {
       (response: any) => {
         console.log('Access Token:', response.access_token);
         // Redirect or store tokens after success
+        this.onLoginSuccess.emit({token:response.access_token});
         this.router.navigate(['/'], {
           queryParams: {
             access_token: response.access_token,
