@@ -10,36 +10,57 @@
 Hello {{ title }}
 
 <ngx-graph
-  class="chart-container"
-  [view]="[800, 200]"
-  [showMiniMap]="true"
+  [view]="[800, 300]"
+  layout="d3ForceDirected"
   [links]="[
     {
       id: 'a',
-      source: 'first',
-    target: 'second',
-      label: 'is parent of'
+      source: '1',
+      target: '2'
     }, {
       id: 'b',
-      source: 'first',
-      target: 'third',
-      label: 'custom label'
+      source: '1',
+      target: '3'
+    }, {
+      id: 'c',
+      source: '3',
+      target: '4'
+    }, {
+      id: 'd',
+      source: '3',
+      target: '5'
+    }, {
+      id: 'e',
+      source: '4',
+      target: '5'
+    }, {
+      id: 'f',
+      source: '2',
+      target: '6'
     }
   ]"
   [nodes]="[
     {
-      id: 'first',
-      label: 'A'
+      id: '1',
+      label: 'Node A'
     }, {
-      id: 'second',
-      label: 'B'
+      id: '2',
+      label: 'Node B'
     }, {
-      id: 'third',
-      label: 'C'
+      id: '3',
+      label: 'Node C'
+    }, {
+      id: '4',
+      label: 'Node D'
+    }, {
+      id: '5',
+      label: 'Node E'
+    }, {
+      id: '6',
+      label: 'Node F'
     }
   ]"
->
-</ngx-graph>
+></ngx-graph>
 <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
 <!-- * * * * * * * * * * * The content above * * * * * * * * * * * * -->
 <!-- * * * * * * * * * * is only a placeholder * * * * * * * * * * * -->
