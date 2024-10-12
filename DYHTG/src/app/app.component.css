@@ -1,0 +1,55 @@
+/* Reset some default browser styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  body {
+    font-family: 'Circular', 'Helvetica Neue', Arial, sans-serif; /* Spotify's font */
+    height: 100vh;
+    background: #121212; /* Spotify's new dark theme background */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+  }
+  
+  /* Main container for the landing page */
+  .landing-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 50px;
+    background-color: #1E1E1E; /* Darker background for contrast */
+    border-radius: 16px; /* Slightly rounded corners */
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5); /* Deeper shadow for focus */
+    max-width: 640px;
+    transition: transform 0.3s ease-in-out;
+  }
+  
+  /* Hover effect to bring focus */
+  .landing-container:hover {
+    transform: translateY(-10px); /* Slight lift on hover */
+  }
+  
+  /* Content area with the heading, text, and button */
+  .landing-content {
+    max-width: 600px;
+    line-height: 1.6;
+  }
+  
+  h1 {
+    font-size: 3rem;
+    margin-bottom: 20px;
+    font-weight: 800;
+    letter-spacing: -1px; /* Strong headline style */
+    color: #FFFFFF; /* High contrast for better readability */
+  }
+  
+  p {
+    font-size: 1.25rem;
+    margin-bottom: 30px;
+    color: #A9A9A9; /* Use softer text color for secondary content */
+  }
