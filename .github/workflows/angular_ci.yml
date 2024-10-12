@@ -4,6 +4,9 @@ on:
 jobs:
   example_job:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./DYTHG
     steps:
       - uses: actions/checkout@v2
       - name: Angular Full CI
