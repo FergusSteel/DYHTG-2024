@@ -38,10 +38,6 @@ export class GraphComponent  {
 		setNodeArray(playlist: any){
 			let node_array:any[] = [];
 			for (let p in playlist){
-				let image: string = "";
-				if (p.images !== undefined && p.images.length > 0) {
-					image = p.images[0];
-				}
 				node_array.push({id: p, label: p, image: undefined});
 			}
 			this.node_array = node_array;
