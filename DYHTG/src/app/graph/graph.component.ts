@@ -35,15 +35,13 @@ export class GraphComponent  {
   			return "";
 		}
 
-
-
 		setNodeArray(playlist: any){
 			let node_array:any[] = [];
 			for (let p in playlist){
-				// let image: string = "";
-				// if (p.images !== undefined && p.images.length > 0) {
-				// 	image = p.images[0];
-				// }
+				let image: string = "";
+				if (p.images !== undefined && p.images.length > 0) {
+					image = p.images[0];
+				}
 				node_array.push({id: p, label: p, image: undefined});
 			}
 			this.node_array = node_array;
@@ -66,7 +64,7 @@ export class GraphComponent  {
 
 			for(let i = 0; i <= playlist.length-1; i++){
 				for(let j = i+1; j <= playlist.length; j++){
-					let intersect = this.intersection(playlist[i], playlist[j])
+					let intersect = this.intersection(playlist[i].tracks.genres, playlist[j].tracks.genres)
 					if (intersect.length > 0){
 						link_array.push({id: String(i+j), source: playlist[i].name, target: playlist[j].name });
 					}
