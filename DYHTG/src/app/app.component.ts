@@ -23,7 +23,6 @@ export class AppComponent {
 
   parsePlaylistIDs(response: any) {
     let parsed = [];
-    let names = [];
 
     for (let playlist of response.items) {
       parsed.push(playlist.id);
