@@ -18,7 +18,7 @@ export class AppComponent {
     playlists: [],
   };
 
-  @HostListener('loginSuccess', ['$event'])
+  @HostListener('onLoginSuccess', ['$event'])
   onLoginSuccess(OAuth: any) {
     this.userToken = OAuth.token;
     // Populate User Model
