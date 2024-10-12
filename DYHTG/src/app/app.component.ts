@@ -6,11 +6,12 @@ import { NgxGraphModule } from '@swimlane/ngx-graph';
 import { LoginComponent } from './login/login.component';
 import { GraphComponent } from './graph/graph.component';
 import { profile } from 'console';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, GraphComponent, LoginComponent],
+  imports: [CommonModule, RouterOutlet, GraphComponent, LoginComponent],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
@@ -18,11 +19,11 @@ export class AppComponent implements OnInit {
   title: string = 'Crescendo';
   userToken: string = '';
 
-  userModel: any = {
-    playlists: [],
-  };
+  userModel: any = {};
 
-  constructor(private router: Router, private route: ActivatedRoute) {}
+  constructor(private router: Router, private route: ActivatedRoute) {
+    this.userModel = {playlists: []};  
+  }
 
   ngOnInit(): void {
     // Listen for query parameters on app initialization to handle token after redirect
@@ -62,13 +63,15 @@ export class AppComponent implements OnInit {
         this.userModel.playlists.push({
           "name": playlist.name,
           "tracks": tracks,
+          "img": playlist.images[0].url || "",
         });
       }
       for (let pl of this.userModel.playlists) {
-        console.log(pl.name);
+        console.log("name: " + pl.name + ", tracks: [");
         for (let track of pl.tracks) {
-          console.log(track);
+          console.log("{ name: "+track.name+", genres: ["+track.genres+"], img: "+track.img+"}");
         }
+        console.log("}")
       }
     } catch (error) {
       console.error('Error loading playlists:', error);
@@ -109,6 +112,7 @@ export class AppComponent implements OnInit {
         const trackInfo = {
           name: track.track.name,
           genres: artistMap.get(track.track.artists[0].id) || [], // Use the genres from the artist map
+          img: track.track.album.images[0].url || "",
         };
         tracks.push(trackInfo);
       }

@@ -14,7 +14,8 @@
       <app-login></app-login>
     </div>
 </div>
-<app-graph>
+<app-graph *ngIf="!!this.userModel" >
+
 
 <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
 <!-- * * * * * * * * * * * The content above * * * * * * * * * * * * -->
