@@ -1,24 +1,30 @@
-export {} // makin it a module
+export {
+    getUserProfile,
+    getPlaylist,
+    getArtistUsingArtistId,
+    getAccessToken,
+    getUserPlaylist,
+} // makin it a module
 const clientId = '0fe50e3d0be1465d966d67e6529ab620';
 const clientSecret = undefined; 
 const statusCode = undefined;
 
-if(!statusCode){
-    redirectToSpotifyAuth();
-}
-else{
-    const token = await getAccessToken(clientId, statusCode);
-    const profile = await getUserProfile(token);
-    const userId = profile.display_name;
-    const playlist = await getUserPlaylist(token,userId);
-}
+// if(!statusCode){
+//     redirectToSpotifyAuth();
+// }
+// else{
+//     const token =  getAccessToken(clientId);
+//     const profile =  getUserProfile(token);
+//     const userId = profile.display_name;
+//     const playlist = await getUserPlaylist(token,userId);
+// }
 
 async function redirectToSpotifyAuth(){
 
 }
 
-async function getAccessToken(clientId : string , statusCode: string){
-    const response = await fetch('https://accounts.spotify.com/api/token', {
+async function getAccessToken(clientId : string){
+    fetch('https://accounts.spotify.com/api/token', {
         method: 'POST',
         body: new URLSearchParams({
           'grant_type': 'client_credentials',
@@ -27,61 +33,50 @@ async function getAccessToken(clientId : string , statusCode: string){
           'Content-Type': 'application/x-www-form-urlencoded',
           'Authorization': 'Basic ' + (Buffer.from(clientId + ':' + clientSecret).toString('base64')),
         },
-      });
-    
-      return await response.json();
+      }).then((result) => {return result.json()})
 }
 
 async function getUserProfile(token: string){
-    const result = await fetch("https://api.spotify.com/v1/me", {
+    return fetch("https://api.spotify.com/v1/me", {
         method: "GET", headers: { Authorization: `Bearer ${token}` }
-    });
-
-    return await result.json();
+    }).then((result) => {return result.json()});
 }
 
 async function getUserPlaylist(token:string, userId:string){
-    const result = await fetch("https://api.spotify.com/v1/users/"+ userId + "/playlists", {
+    fetch("https://api.spotify.com/v1/users/"+ userId + "/playlists", {
         method: "GET", 
         headers:{ 
             Authorization: `Bearer ${token}`
         }
-    });
+    }).then((result) => {return result.json()})
 
-    return await result.json();
 }
 
 async function getPlaylist(token: string, playlistId:string){
-    const result = await fetch("https://api.spotify.com/v1/playlists/"+playlistId, {
+    fetch("https://api.spotify.com/v1/playlists/"+playlistId, {
         method: "GET",
         headers:{
             Authorization: `Bearer ${token}`
         }
-    })
+    }).then((result) => {return result.json()})
 
-    return await result.json();
+    
 }
 
 async function getTrackFromPlaylist(token: string, playlistId: string){
-    const result = await fetch("https://api.spotify.com/v1/playlists/"+ playlistId +"/tracks",{
+    fetch("https://api.spotify.com/v1/playlists/"+ playlistId +"/tracks",{
         method: "GET",
         headers: {
             Authorization: `Bearer ${token}`
         }
-    } );
-    
-    return await result.json();
-
+    }).then((result) => {return result.json()});
 }
 
 async function getArtistUsingArtistId(token:string, artistid: string){
-    const result = await fetch("https://api.spotify.com/v1/artists/" + { artistid },{
+    fetch("https://api.spotify.com/v1/artists/" + { artistid },{
         method: "GET",
         headers:{
             Authorization: `Bearer ${token}`   
         }
-    }
-        
-    );
-    return await result.json();
+    }).then((result) => {return result.json()});
 }

@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, HostListener, Input } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { NgxGraphModule } from '@swimlane/ngx-graph';
+import {getUserProfile, getUserPlaylist, getPlaylist, getArtistUsingArtistId} from "../SpotifyData";
 
 @Component({
   selector: 'app-root',
@@ -11,14 +12,35 @@ import { NgxGraphModule } from '@swimlane/ngx-graph';
 })
 export class AppComponent {
   title: string;
+  userToken: string = "";
 
   userModel: any = {
     playlists: [],
   };
 
+  @HostListener('loginSuccess', ['$event'])
+  onLoginSuccess(OAuth: any) {
+    this.userToken = OAuth.token;
+    // Populate User Model
+    getUserProfile(this.userToken).then((response) => {
+      let userId = response.id;
+      getUserPlaylist(this.userToken, userId).then((response) => {
+        let playlistIds = this.parsePlaylistIDs(response);
+        for (let playlistId of playlistIds) {
+          getPlaylist(this.userToken, playlistId).then((response) => {
+            this.parseTracksIds(response);
+          });
+          
+        }
+      });
+    });
+
+    console.log(this.userModel);
+    return;
+  }
+
   constructor() {
     this.title = 'Crescendo';
-
   }
 
   parsePlaylistIDs(response: any) {
@@ -51,16 +73,13 @@ export class AppComponent {
       let nextPage = fetch(playlist.next, {});
       parsed.concat(this.parseTracksIds(nextPage));
     }
-
-    return parsed;
   }
 
   getTrackGenres(track:any) {
     let artistId = this.parseTrackArtist(track);
-    // let artist = await getArtistUsingArtistId(artistId);
-    // let genres = this.parseArtistGenres(artist);
-    // return genres
-    return []
+    let artist = getArtistUsingArtistId(this.userToken, artistId);
+    let genres = this.parseArtistGenres(artist);
+    return genres
   }
 
   parseTrackArtist(track: any) {
