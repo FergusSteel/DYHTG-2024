@@ -1,4 +1,5 @@
 <ngx-graph
+  [style.display]="hideComponent ? 'none' : 'block'"
   layout="d3ForceDirected"
   [links]="link_array"
   [nodes]="node_array"

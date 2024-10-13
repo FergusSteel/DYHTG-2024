@@ -12,9 +12,11 @@ import { Node, Edge, ClusterNode } from '@swimlane/ngx-graph';
 export class GraphComponent  {
 	public link_array: any;
 	public node_array: any;
+	public hideComponent: boolean = true;
+
 
 		constructor() {
-		  this.link_array = [{id: 'Hello', source: 'hello', target: '2'}, {id: 'b', source: 'hello', target: '3'}, {id: 'c', source: '3', target: '4'}, {id: 'd', source: '3', target: '5'}, {id: 'e', source: '4', target: '5'}, {id: 'f', source: '2', target: '6'} ];
+		  this.link_array = [{id: 'Hello', source: 'hello', target: '2', strength: '10'}, {id: 'b', source: 'hello', target: '3', strength: '2'}, {id: 'c', source: '3', target: '4', strength: '1'}, {id: 'd', source: '3', target: '5', strength: '1'}, {id: 'e', source: '4', target: '5', strength: '5'}, {id: 'f', source: '2', target: '6', strength: '1'} ];
 
 	    this.node_array = [{id: 'hello', label: 'Node A', image: "https://i.imgflip.com/60tafm.jpg"}, {id: '2', label: 'Node B', image: "https://i.kym-cdn.com/photos/images/facebook/001/790/326/797.jpg"}, {id: '3', label: 'Node C', image: "https://i.kym-cdn.com/photos/images/facebook/001/790/326/797.jpg"}, {id: '4', label: 'Node D', image: "https://i.kym-cdn.com/photos/images/facebook/001/790/326/797.jpg"}, {id: '5', label: 'Node E', image: "https://i.kym-cdn.com/photos/images/facebook/001/790/326/797.jpg"}, {id: '6', label: 'Node F'}];
 		}
@@ -67,7 +69,7 @@ export class GraphComponent  {
 				for(let j = i+1; j <= playlist.length; j++){
 					let intersect = this.intersection(playlist[i].tracks.genres, playlist[j].tracks.genres)
 					if (intersect.length > 0){
-						link_array.push({id: String(i+j), source: playlist[i].name, target: playlist[j].name });
+						link_array.push({id: String(i+j), source: playlist[i].name, target: playlist[j].name, label: intersect[0], strength: intersect.length+1 });
 					}
 				}
 			}
