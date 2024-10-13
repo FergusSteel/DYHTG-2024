@@ -11,7 +11,7 @@ import {NgModule} from '@angular/core';
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [CommonModule, RouterOutlet, GraphComponent, LoginComponent],
+  imports: [CommonModule, RouterOutlet,GraphComponent, LoginComponent],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
@@ -20,9 +20,11 @@ export class AppComponent implements OnInit {
   userToken: string = '';
 
   userModel: any = {};
+  graph: any = undefined;
 
   constructor(private router: Router, private route: ActivatedRoute) {
-    this.userModel = {playlists: []};  
+    this.userModel = {playlists: []};
+    
   }
 
   ngOnInit(): void {
@@ -33,11 +35,13 @@ export class AppComponent implements OnInit {
         this.onLoginSuccess(params['access_token']);
       }
     });
+    this.graph = new GraphComponent();  
   }
 
   async onLoginSuccess(token: string): Promise<void> {
     console.log('Login Success with token:', token);
     this.userToken = token;
+    this.graph.hideComponent = false;
     await this.loadUserProfile();
   }
 
